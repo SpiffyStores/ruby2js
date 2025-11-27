@@ -39,6 +39,12 @@ describe "ES2020 support" do
       to_js( 'a || b' ).must_equal 'a || b'
       to_js_nullish( 'a || b' ).must_equal 'a ?? b'
     end
+
+    it "should convert 'a.nil? ? b : a' to nullish coalescing" do
+      to_js( 'a.nil? ? b : a' ).must_equal 'a ?? b'
+      to_js( '@a.nil? ? b : @a' ).must_equal 'this._a ?? b'
+      to_js( 'foo.bar.nil? ? default_val : foo.bar' ).must_equal 'foo.bar ?? default_val'
+    end
   end
 
   describe :OptionalChaining do
